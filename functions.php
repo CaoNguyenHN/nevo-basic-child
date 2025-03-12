@@ -92,64 +92,6 @@ function child_theme_enqueue_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'child_theme_enqueue_scripts' );
 
-require get_stylesheet_directory() . '/inc/filter-images-alt/filter-for-images-alt.php';
-
-require get_stylesheet_directory() . '/inc/languages/nevo-languages.php';
-
-require get_stylesheet_directory() . '/inc/wp-optimize/optimize.php';
-
-$true = true;
-if(class_exists( 'WooCommerce' ) || function_exists( 'wc' )){
-	$true = false;
-}
-
-$optimisations = [
-    'block_external_HTTP'       => false, // Chặn các yêu cầu đến địa chỉ http bên ngoài. Do đó, chặn tất cả các yêu cầu được thực hiện bởi các plugin đến các địa chỉ bên ngoài.
-	'defer_CSS'                 => false, // Trì hoãn việc tải tất cả các kịch bản đã đăng ký bằng cách sử dụng hàm loadCSS từ Filament Group.
-	'defer_JS'                  => true,  // Thêm defer="defer" cho tất cả các tệp JavaScript đã được đăng ký. (trì hoãn quá trình sử lý js)
-	'classic_widget'      		=> true, // Bật màn hình cài đặt widget cổ điển trong Giao diện - Widget và Tùy biến. Vô hiệu hóa trình chỉnh sửa khối khỏi việc quản lý tiện ích con.
-	'disable_comments'          => false, // Tắt chức năng bình luận và loại bỏ nó khỏi menu quản trị.
-	'disable_classic_styles'    => true, // loại bỏ kiểu dáng classic theme.
-	'disable_block_styling'     => true, // Loại bỏ kiểu dáng khối Gutenberg mặc định.
-	'disable_global_styles'     => true, // Xóa Các Biến CSS WordPress/Gutenberg Mặc Định Và Định Nghĩa SVG Khỏi Giao Diện Người Dùng
-	'disable_embed'             => true, // Loại bỏ các tệp script được đăng ký bởi hệ thống nhúng phương tiện của WordPress.
-	'disable_emoji'             => true,  // Loại bỏ các tệp script được đăng ký để hiển thị biểu tượng cảm xúc.
-	'disable_feeds'             => true, // Loại bỏ các nguồn cấp dữ liệu bài viết.
-	'disable_heartbeat'         => true, // Hủy đăng ký các tệp script heartbeat, thường làm nhiệm vụ tự động lưu.
-	'disable_jquery'            => $true, // Loại bỏ tệp script jQuery mặc định. NẾU trang web hoặc plugin phụ thuộc jQuery thì không nên loại bỏ-------------.
-	'disable_jquery_migrate'    => $true,  // Loại bỏ tệp script jQuery Migrate. NẾU trang web hoặc plugin phụ thuộc jQuery thì không nên loại bỏ-------------.
-	'disable_rest_api'          => true, // Vô hiệu hóa rest api.
-	'disable_RSD'               => true,  // Loại bỏ liên kết RDS trong phần head của trang web.
-	'disable_shortlinks'        => true,  // Loại bỏ các liên kết ngắn trong phần head của trang web.
-	'disable_theme_editor'      => false, // Vô hiệu hóa trình chỉnh sửa tệp cho chủ đề và plugin.
-	'disable_version_numbers'   => true,  // Loại bỏ phiên bản được liên kết trong các tệp script và kiểu đã được đăng ký.
-	'disable_WLW_manifest'      => true,  // Loại bỏ các liên kết WLW Manifest trong phần head của trang web.
-	'disable_WP_version'        => true,  // Loại bỏ phiên bản WP trong phần head của trang web.
-	'disable_XMLRPC'            => true,  // Vô hiệu hóa chức năng xmlrpc.
-	'jquery_to_footer'          => true,  // Di chuyển tệp script jQuery mặc định xuống cuối trang.
-	'limit_comments_JS'         => true,  // Giới hạn việc sử dụng JS cho bình luận chỉ đối với các thực thể đơn lẻ
-	'limit_revisions'           => true,  // Giới hạn số lần sửa đổi thành 5
-	'remove_comments_style'     => true,  // Loại bỏ kiểu dáng .recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}
-	'slow_heartbeat'            => true,  // Chậm lại nhịp tim thành một lần mỗi phút
-	'instant_page'           	=> true,  // Tải trước khi người dùng click vào liên kết
-	'smooth_scroll'         	=> true
-];
-$optimize = new Optimize( $optimisations );
-
-/* add_filter('the_title', 'change_title_case');
-
-function change_title_case($title) {
-    //$title = ucwords(strtolower($title)); // tất cả chữ cái đầu thành chữ hoa
-	$title = ucfirst(strtolower($title)); // chỉ chữ đầu tiên là chữ hoa
-    return $title;
-}
-
-add_filter('comment_form_default_fields', 'nevo_remove_website_field', 9999);
-function nevo_remove_website_field($fields) {
-   unset($fields['url']);
-   return $fields;
-}
- */
 add_action( 'manage_posts_custom_column', 'nevo_custom_columns_content', 10, 2 );
 function nevo_custom_columns_content( $column_name, $post_id ) {
     if ( $column_name === 'featured_image' ) {
